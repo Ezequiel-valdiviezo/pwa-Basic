@@ -1,71 +1,65 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi App Web</title>
 
-  <!-- Manifest y PWA meta -->
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="apple-touch-icon" href="logo.png">
-  <link rel="icon" href="logo.png">
+  <!-- Responsive -->
+  <meta charset="utf-8">
+  <meta name="viewport" 
+        content="width=device-width,
+                 initial-scale=1">
+  <meta http-equiv="X-UA-Compatible"
+        content="ie=edge">
 
-  <!-- Estilos opcionales -->
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-  </style>
+  <!-- Title -->
+  <title>PWA Tutorial</title>
+
+  <!-- Meta Tags required for
+       Progressive Web App -->
+  <meta name=
+  "apple-mobile-web-app-status-bar" 
+        content="#aa7700">
+  <meta name="theme-color"
+        content="black">
+
+  <!-- Manifest File link -->
+  <link rel="manifest"
+        href="manifest.json">
 </head>
+
 <body>
-  <h1>Mi App Web</h1>
-
-<script>
-  let deferredPrompt;
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    // Evita que Chrome muestre el prompt automáticamente
-    e.preventDefault();
-    deferredPrompt = e;
-    console.log('👍 beforeinstallprompt event captured');
-
-    // Opcional: mostrar un botón para invocar la instalación
-    const btn = document.createElement('button');
-    btn.textContent = 'Instalar PWA';
-    btn.style.position = 'fixed';
-    btn.style.bottom = '20px';
-    btn.style.right = '20px';
-    btn.style.padding = '10px 20px';
-    btn.style.fontSize = '16px';
-    document.body.appendChild(btn);
-
-    btn.addEventListener('click', () => {
-      // Mostrar el prompt
-      deferredPrompt.prompt();
-
-      // Esperar la respuesta del usuario
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('👍 Usuario aceptó la instalación');
-        } else {
-          console.log('👎 Usuario rechazó la instalación');
+    <style>
+        div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        deferredPrompt = null;
-        btn.remove();
-      });
+    </style>
+    <div>
+        <img src="logo.png" alt="">
+        <h1 style="color: rgb(17, 122, 192);">
+            Dienst</h1>
+    </div>
+
+
+
+  <script>
+    window.addEventListener('load', () => {
+      registerSW();
     });
-  });
 
-  window.addEventListener('appinstalled', () => {
-    console.log('🎉 PWA fue instalada');
-  });
-</script>
-
+    // Register the Service Worker
+    async function registerSW() {
+      if ('serviceWorker' in navigator) {
+        try {
+          await navigator
+                .serviceWorker
+                .register('serviceworker.js');
+        }
+        catch (e) {
+          console.log('SW registration failed');
+        }
+      }
+    }
+ </script>
 </body>
 </html>
