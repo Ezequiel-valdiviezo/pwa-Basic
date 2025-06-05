@@ -26,17 +26,45 @@
 <body>
   <h1>Mi App Web</h1>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(reg => console.log('SW registradoasdsa:', reg))
-        .catch(err => console.error('SW error:', err));
-    }
-  </script>
-  <script>
-  if (window.matchMedia('(display-mode: standalone)').matches) {
-    window.location.href = "https://dienstpreos.com.ar/policiabsas-mobile/dashboard";
-  }
+<script>
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Evita que Chrome muestre el prompt automáticamente
+    e.preventDefault();
+    deferredPrompt = e;
+    console.log('👍 beforeinstallprompt event captured');
+
+    // Opcional: mostrar un botón para invocar la instalación
+    const btn = document.createElement('button');
+    btn.textContent = 'Instalar PWA';
+    btn.style.position = 'fixed';
+    btn.style.bottom = '20px';
+    btn.style.right = '20px';
+    btn.style.padding = '10px 20px';
+    btn.style.fontSize = '16px';
+    document.body.appendChild(btn);
+
+    btn.addEventListener('click', () => {
+      // Mostrar el prompt
+      deferredPrompt.prompt();
+
+      // Esperar la respuesta del usuario
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('👍 Usuario aceptó la instalación');
+        } else {
+          console.log('👎 Usuario rechazó la instalación');
+        }
+        deferredPrompt = null;
+        btn.remove();
+      });
+    });
+  });
+
+  window.addEventListener('appinstalled', () => {
+    console.log('🎉 PWA fue instalada');
+  });
 </script>
 
 </body>
