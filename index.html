@@ -27,18 +27,32 @@
 </head>
 
 <body>
-    <style>
-        div{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-    <div>
-        <img src="logo.png" alt="">
-        <h1 style="color: rgb(17, 122, 192);">
-            Dienst</h1>
-    </div>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Esto es lo que faltaba */
+    flex-direction: column; /* Para que la imagen y el texto estén uno debajo del otro */
+  }
+
+  h1 {
+    color: rgb(17, 122, 192);
+    margin-top: 20px;
+  }
+</style>
+
+<div>
+  <img src="logo.png" alt="Logo">
+  <h1>Dienst</h1>
+</div>
+
 
 
 
